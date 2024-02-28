@@ -1,0 +1,31 @@
+	# Anotações importantes sobre o projeto:
+
+# Explicações sobre as ações realizadas para atender as demandas solicitadas em algumas questões:
+
+11. Realize a junção dos colaboradores e respectivos nomes dos gerentes . Isso pode ser feito com consulta SQL ou pela mescla de tabelas com Power BI. Caso utilize SQL, especifique no README a query utilizada no processo.
+
+R: Query SQL utilizada para realizar o que foi solicitado no item acima:
+
+SELECT 
+    concat(e.Fname,' ',e.Lname) AS Gerente, d.Mgr_ssn as Id_Gerente,
+    concat(e_colab.Fname, ' ',e_colab.Lname) AS Colaborador, e_colab.ssn as Id_Colaborador
+FROM 
+    departament d
+INNER JOIN 
+    employee e ON d.Mgr_ssn = e.ssn
+INNER JOIN 
+    employee e_colab ON d.Mgr_ssn = e_colab.Super_ssn 
+    Where e_colab.ssn != e.Super_ssn;
+
+- A consulta retorna uma tabela com o nome dos gerentes, o número de identificação dos gerentes, o nome do colaborador associado aquele gerente e o id do colaborador. Foi necessário usar a cláusula Where para remover duas inconsistências que eu notei em relação ao James sendo gerente da jennifer e a jennifer do James ao mesmo tempo.
+
+14. Explique por que, neste caso supracitado, podemos apenas utilizar o mesclar e não o atribuir.
+
+R: A opção "mesclar consultas" no Power Query é usada quando queremos combinar dados de duas ou mais tabelas com base em uma coluna comum. Ao usar essa opção, podemos especificar uma coluna em cada tabela que contenha informações semelhantes e, em seguida, o Power Query combinará os dados com base nessa coluna.
+
+Por exemplo, se quisermos combinar as tabelas "departament" e "dept_locations" com base na coluna "Dnumber", que representa o número dos departamentos e está presente em ambas as tabelas, podemos usar a opção "mesclar consultas". Isso nos permite juntar as informações de ambas as tabelas com base no relacionamento entre esses números de departamento.
+
+Por outro lado, a opção "acrescentar consultas" é usada quando queremos adicionar linhas de uma tabela a outra tabela existente, desde que ambas as tabelas tenham a mesma estrutura de colunas e tipos de dados. Isso é útil quando temos dados adicionais que desejamos adicionar à tabela existente sem alterar sua estrutura ou conteúdo.
+
+Portanto, no caso descrito, a opção correta seria "mesclar consultas", pois queremos combinar dados com base em uma coluna comum (o número do departamento) em vez de simplesmente adicionar linhas de uma tabela a outra.
+ 
